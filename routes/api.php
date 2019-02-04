@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +11,20 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('cities', 'CityController@index');
+Route::get('cities/{city}', 'CityController@show');
+Route::post('cities', 'CityController@store');
+Route::put('cities/{city}', 'CityController@update');
+Route::delete('cities/{city}', 'CityController@delete');
+
+Route::get('developers', 'DeveloperController@index');
+Route::get('developers/{developer}', 'DeveloperController@show');
+Route::post('developers', 'DeveloperController@store');
+Route::put('developers/{developer}', 'DeveloperController@update');
+Route::delete('developers/{developer}', 'DeveloperController@delete');
+
+Route::get('listings', 'ListingController@index');
+Route::get('listings/{listing}', 'ListingController@show');
+Route::post('listings', 'ListingController@store');
+Route::put('listings/{listing}', 'ListingController@update');
+Route::delete('listings/{listing}', 'ListingController@delete');
