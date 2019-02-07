@@ -15,8 +15,8 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('list', require('./components/List.vue'));
+Vue.component('real-estate-app', require('./views/RealEstate.vue'));
 
-const app = new Vue({
-    el: '#app'
+new Vue({
+    el: '#real-estate-app'
 });

@@ -3,14 +3,10 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Estate List</div>
-                <div class="panel-body">
-                    <list></list>
-                </div>
-            </div>
+        <div id="real-estate-app">
+            <real-estate-app></real-estate-app>
         </div>
     </div>
 </div>
+<script src="{{ asset('js/app.js') }}"></script>
 @endsection

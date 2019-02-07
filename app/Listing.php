@@ -8,7 +8,7 @@ class Listing extends Model
 {
     protected $table = 'lists';
     protected $with = ['city', 'developer'];
-    protected $fillable = ['price', 'name', 'isOnSale'];
+    protected $fillable = ['price', 'name', 'isOnSale', 'city_id', 'developer_id'];
     protected $hidden = ['city_id', 'developer_id', 'created_at', 'updated_at'];
 
     public function city()
