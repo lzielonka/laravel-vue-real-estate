@@ -45,20 +45,19 @@
     methods: {
       addListing(listing) {
         const request = {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
+          headers: {'Accept': 'application/json','Content-Type': 'application/json'},
           method: 'POST',
           body: JSON.stringify(listing),
         };
         fetch('/api/listings', request)
-          .then(res => res.json())
+          .then(res => res.json().then(content => ({content: content, failed: res.status !== 201})))
           .then(res => {
-            if (201 === res.status) {
-              return this.$emit('new-listing-added');
+            if (res.failed) {
+                return this.$emit('listing-addition-failed', res.content);
             }
-            return this.$emit('listing-addition-failed', res);
+            this.listingFormErrors = [];
+
+            return this.$emit('new-listing-added');
           })
           .catch(res => {
             console.log(res);
@@ -66,7 +65,6 @@
       },
       parseResponseErrors(res) {
         this.listingFormErrors = [];
-        console.log(res);
         Object.keys(res).map(key => {
           this.listingFormErrors.push(res[key][0]);
         });

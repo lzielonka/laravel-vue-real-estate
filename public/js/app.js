@@ -44367,8 +44367,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         name: this.name,
         price: parseInt(this.price),
         isOnSale: parseInt(this.isOnSale),
-        city_id: this.selectedCityId + 34234,
-        developer_id: this.selectedDeveloperId + 324242344
+        city_id: this.selectedCityId,
+        developer_id: this.selectedDeveloperId
       };
       this.clearInputs();
       this.$emit('add-form-submitted', listing);
@@ -44887,20 +44887,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       var request = {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         method: 'POST',
         body: JSON.stringify(listing)
       };
       fetch('/api/listings', request).then(function (res) {
-        return res.json();
+        return res.json().then(function (content) {
+          return { content: content, failed: res.status !== 201 };
+        });
       }).then(function (res) {
-        if (201 === res.status) {
-          return _this.$emit('new-listing-added');
+        if (res.failed) {
+          return _this.$emit('listing-addition-failed', res.content);
         }
-        return _this.$emit('listing-addition-failed', res);
+        _this.listingFormErrors = [];
+
+        return _this.$emit('new-listing-added');
       }).catch(function (res) {
         console.log(res);
       });
@@ -44909,7 +44910,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this2 = this;
 
       this.listingFormErrors = [];
-      console.log(res);
       Object.keys(res).map(function (key) {
         _this2.listingFormErrors.push(res[key][0]);
       });
