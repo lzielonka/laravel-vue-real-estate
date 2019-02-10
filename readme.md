@@ -62,13 +62,27 @@ docker-compose exec app php artisan key:generate
 docker-compose exec app php artisan optimize
 ```
 
-### Running laravel and nodejs commands in docker
+### Running laravel commands in docker
 ```
 docker-compose exec app php artisan migrate
+docker-compose exec app php artisan db:seed
+```
+### Running nodejs commands in docker
+```
 docker-compose exec app npm install
+```
+or
+```
+docker-compose exec app npm i -g yarn
+docker-compose exec app yarn
 ```
 
 ### Set correct permisions if api router is not working
 ```
  docker-compose exec app chmod -R 755 storage
 ```
+
+### Importing Postman collection
+
+- Import included [Postman Collection](Real Estate.postman_collection.json)
+- Change `BASE_URL` variable if needed (it's set to `localhost:8080`)
