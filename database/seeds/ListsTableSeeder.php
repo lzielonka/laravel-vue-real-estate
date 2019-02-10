@@ -1,8 +1,8 @@
 <?php
 
-use App\City;
-use App\Developer;
-use App\Listing;
+use App\Models\City;
+use App\Models\Developer;
+use App\Models\Listing;
 use Illuminate\Database\Seeder;
 use Faker\Factory;
 

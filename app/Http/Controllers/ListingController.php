@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Listing;
+use App\Models\Listing;
 use Illuminate\Http\Request;
 
 class ListingController extends Controller
@@ -34,6 +34,14 @@ class ListingController extends Controller
 
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required|min:5|max:191|unique:lists,name',
+            'price' => 'required|integer|between:1,2147483648',
+            'city_id' => 'required|exists:cities,id',
+            'developer_id' => 'required|exists:developers,id',
+            'isOnSale' => 'required|integer|between:0,1',
+        ]);
+
         $listing = Listing::create($request->all());
 
         return response()->json($listing, 201);

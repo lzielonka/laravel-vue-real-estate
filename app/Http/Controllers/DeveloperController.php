@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Developer;
+use App\Models\Developer;
 use Illuminate\Http\Request;
 
 class DeveloperController extends Controller

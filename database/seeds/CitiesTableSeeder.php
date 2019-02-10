@@ -1,6 +1,6 @@
 <?php
 
-use App\City;
+use App\Models\City;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 

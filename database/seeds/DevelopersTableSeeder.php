@@ -1,6 +1,6 @@
 <?php
 
-use App\Developer;
+use App\Models\Developer;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 

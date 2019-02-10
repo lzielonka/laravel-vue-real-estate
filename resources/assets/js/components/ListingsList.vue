@@ -15,7 +15,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="listing in listings" v-bind:key="listing.id" v-on:click="showDetails(listing)">
+                        <tr v-for="listing in listings" v-bind:key="listing.id" v-on:click="showDetails(listing.id)">
                             <td>{{ listing.id }}</td>
                             <td>{{ listing.name }}</td>
                             <td>{{ listing.city.name }}, {{ listing.city.country }}</td>
@@ -35,8 +35,8 @@
     name: 'ListingList',
     props: ['listings'],
     methods: {
-      showDetails(listing) {
-        this.$emit('open-details', listing);
+      showDetails(listingId) {
+        this.$emit('open-details', listingId);
       }
     }
   };

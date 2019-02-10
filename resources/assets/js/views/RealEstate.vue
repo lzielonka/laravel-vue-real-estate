@@ -1,9 +1,9 @@
 <template>
     <div>
-        <ListingForm v-bind:developers="developers" v-bind:cities="cities" v-on:add-form-submitted="addListing"/>
+        <ListingForm v-bind:listingFormErrors="listingFormErrors" v-bind:developers="developers" v-bind:cities="cities" v-on:add-form-submitted="addListing"/>
         <ListingsFilter v-bind:developers="developers" v-bind:cities="cities" v-on:filters-changed="updateFilters"/>
         <ListingsList v-bind:listings="listings" v-on:open-details="openDetails"/>
-        <ListingDetails v-bind:listing="detailedListing"/>
+        <ListingDetails v-bind:listing="detailedListing" v-bind:isLoading="listingIsLoading"/>
     </div>
 </template>
 
@@ -29,6 +29,7 @@
     mounted() {
       this.$on('new-listing-added', this.fetchListings);
       this.$on('new-filters-selected', this.fetchListings);
+      this.$on('listing-addition-failed', this.parseResponseErrors);
     },
     data() {
       return {
@@ -36,15 +37,13 @@
         developers: [],
         listings: [],
         filters: {},
-        detailedListing: null
+        detailedListing: null,
+        listingIsLoading: true,
+        listingFormErrors: [],
       };
     },
     methods: {
-      openDetails(listing) {
-        this.detailedListing = listing;
-        $('#listing-details').modal('show');
-      },
-      async addListing(listing) {
+      addListing(listing) {
         const request = {
           headers: {
             'Accept': 'application/json',
@@ -53,8 +52,34 @@
           method: 'POST',
           body: JSON.stringify(listing),
         };
-        await fetch('/api/listings', request).catch(res => console.log(res));
-        this.$emit('new-listing-added');
+        fetch('/api/listings', request)
+          .then(res => res.json())
+          .then(res => {
+            if (201 === res.status) {
+              return this.$emit('new-listing-added');
+            }
+            return this.$emit('listing-addition-failed', res);
+          })
+          .catch(res => {
+            console.log(res);
+        });
+      },
+      parseResponseErrors(res) {
+        this.listingFormErrors = [];
+        console.log(res);
+        Object.keys(res).map(key => {
+          this.listingFormErrors.push(res[key][0]);
+        });
+      },
+      openDetails(listingId) {
+        this.listingIsLoading = true;
+        $('#listing-details').modal('show');
+        fetch(`/api/listings/${listingId}`)
+          .then(res => 404 === res.status ? null : res.json())
+          .then(listing => {
+            this.listingIsLoading = false;
+            this.detailedListing = listing;
+        }).catch(err => console.log(err));
       },
       updateFilters(filters) {
         this.filters = filters;
@@ -77,7 +102,6 @@
       },
       encodeFilters() {
         const params = Object.keys(this.filters).map(key => key + '=' + this.filters[key]).join('&');
-        console.log(params);
 
         return params.length ? '?' + params : '';
       },
