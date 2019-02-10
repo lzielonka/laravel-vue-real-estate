@@ -107,8 +107,8 @@
           name: this.name,
           price: parseInt(this.price),
           isOnSale: parseInt(this.isOnSale),
-          city_id: this.selectedCityId + 34234,
-          developer_id: this.selectedDeveloperId + 324242344,
+          city_id: this.selectedCityId,
+          developer_id: this.selectedDeveloperId,
         };
         this.clearInputs();
         this.$emit('add-form-submitted', listing);
