@@ -12,5 +12,5 @@
 */
 
 Route::auth();
-Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
-Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
+Route::get('/', 'HomeController@root')->name('root');
+Route::get('/home', 'HomeController@home')->name('home')->middleware('auth');

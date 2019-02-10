@@ -86,3 +86,8 @@ docker-compose exec app yarn
 
 - Import included [Postman Collection](Real Estate.postman_collection.json)
 - Change `BASE_URL` variable if needed (it's set to `localhost:8080`)
+
+### Accessing the app
+
+- Navigate to [http://localhost:8080](http://localhost:8080) or configurated custom url
+- Register or Login - if `db:seed` command has been run, you can login with `admin@admin.com` `admin123` credentials)
