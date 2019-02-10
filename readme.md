@@ -84,7 +84,7 @@ docker-compose exec app yarn
 
 ### Importing Postman collection
 
-- Import included [Postman Collection](Real Estate.postman_collection.json)
+- Import included collection from `Real Estate.postman_collection.json`
 - Change `BASE_URL` variable if needed (it's set to `localhost:8080`)
 
 ### Accessing the app
